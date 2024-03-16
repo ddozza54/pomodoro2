@@ -9,14 +9,22 @@ import { GOAL_TOTAL, POMO_TOTAL, ROUND_TOTAL, goalAtom, pomoTimeAtom, roundAtom 
 const getMinutes = (fullSeconds: number) => {
   return String(Math.floor(fullSeconds / 60)).padStart(2, "0");
 }
-const getSeconds = (fullSeconds: number) => {
+const getSeconds = (fullSeconds: any) => {
   return String(fullSeconds % 60).padStart(2, "0");
 }
 function App() {
   const [pomoTime, setPomoTime] = useRecoilState(pomoTimeAtom);
+  const [minutes, setMinutes] = useState(getMinutes(pomoTime))
+  const [seconds, setSeconds] = useState(getSeconds(pomoTime))
   const [round, setRound] = useRecoilState(roundAtom);
   const [goal, setGoal] = useRecoilState(goalAtom)
   const [isTimerWorking, setIsTimerWorking] = useState(false);
+  const [IsDisableToSetTime, setIsDisableToSetTime] = useState(false);
+  const onPlayBtnClick = () => {
+    setIsTimerWorking(prev => !prev);
+    setPomoTime(Number(minutes) * 60 + Number(seconds));
+    setIsDisableToSetTime(prev => !prev)
+  };
 
   useEffect(() => {
     if (isTimerWorking) {
@@ -28,6 +36,7 @@ function App() {
         setRound(prev => prev + 1);
         setIsTimerWorking(false);
         setPomoTime(POMO_TOTAL);
+        setIsDisableToSetTime(false)
       }
       return () => clearInterval(timer);
     }
@@ -44,12 +53,23 @@ function App() {
     <AppBox>
       <img src={ddozza} width='80px' />
       <h2>DDOZZA's Pomodoro</h2>
-      <Timer>
-        <TimeBox>{getMinutes(pomoTime)}</TimeBox>
+      <span>Set Pomodoro Time</span>
+      <Timer onSubmit={(event) => {
+        event.preventDefault();
+      }}>
+        <TimeBox>
+          <TimeInput onChange={(event) => {
+            Number(event.target.value) >= 0 ? setMinutes(event.target.value.padStart(2, "0")) : setMinutes("00")
+          }} type='number' value={isTimerWorking ? getMinutes(pomoTime) : minutes} disabled={IsDisableToSetTime} />
+        </TimeBox>
         <span>:</span>
-        <TimeBox>{getSeconds(pomoTime)}</TimeBox>
+        <TimeBox>
+          <TimeInput onChange={(event) => {
+            Number(event.target.value) >= 0 ? setSeconds(event.target.value.padStart(2, "0")) : setSeconds("00")
+          }} type='number' value={isTimerWorking ? getSeconds(pomoTime) : seconds} disabled={IsDisableToSetTime} />
+        </TimeBox>
       </Timer>
-      <PlayBtn onClick={() => setIsTimerWorking(prev => !prev)}>
+      <PlayBtn onClick={onPlayBtnClick}>
         {
           isTimerWorking ? <FaPause />
             : <FaPlay />
@@ -77,7 +97,14 @@ const AppBox = styled.main`
     align-items: center;
     justify-content: center;
 `;
-const Timer = styled.div`
+const TimeInput = styled.input`
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  margin-left: 6px;
+  font-size: 6rem;
+`
+const Timer = styled.form`
     display: flex;
     align-items: center;
     font-size: 6rem;
@@ -93,6 +120,7 @@ const TimeBox = styled(motion.div)`
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+  text-indent: 30%;
   `;
 const PlayBtn = styled.button`
     width: 4rem;

@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
 // export const POMO_TOTAL = 0.1 * 60;
-export const POMO_TOTAL = 3;
+export const POMO_TOTAL = 25 * 60;
 export const pomoTimeAtom = atom({
   key: 'pomoTime',
   default: POMO_TOTAL,
