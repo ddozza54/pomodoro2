@@ -57,19 +57,28 @@ function App() {
       <Timer onSubmit={(event) => {
         event.preventDefault();
       }}>
-        <TimeBox>
+        <TimeBox
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}>
           <TimeInput onChange={(event) => {
             Number(event.target.value) >= 0 ? setMinutes(event.target.value.padStart(2, "0")) : setMinutes("00")
           }} type='number' value={isTimerWorking ? getMinutes(pomoTime) : minutes} disabled={IsDisableToSetTime} />
         </TimeBox>
         <span>:</span>
-        <TimeBox>
+        <TimeBox
+          key={pomoTime}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <TimeInput onChange={(event) => {
             Number(event.target.value) >= 0 ? setSeconds(event.target.value.padStart(2, "0")) : setSeconds("00")
-          }} type='number' value={isTimerWorking ? getSeconds(pomoTime) : seconds} disabled={IsDisableToSetTime} />
+          }}
+            type='number' value={isTimerWorking ? getSeconds(pomoTime) : seconds} disabled={IsDisableToSetTime} />
         </TimeBox>
       </Timer>
-      <PlayBtn onClick={onPlayBtnClick}>
+      <PlayBtn onClick={onPlayBtnClick} whileHover={{ scale: 1.2 }}>
         {
           isTimerWorking ? <FaPause />
             : <FaPlay />
@@ -122,7 +131,7 @@ const TimeBox = styled(motion.div)`
   border-radius: 20px;
   text-indent: 30%;
   `;
-const PlayBtn = styled.button`
+const PlayBtn = styled(motion.button)`
     width: 4rem;
     height: 4rem;
     display: flex;
@@ -131,7 +140,10 @@ const PlayBtn = styled.button`
     border-radius: 50%;
     font-size: 2rem;
     border: none;
-    background-color:#dfd6cf ;
+    background-color:#dfd6cf;
+    &:hover{
+      cursor: pointer;
+    }
   `;
 const CounterBox = styled.div`
     width: 100%;
