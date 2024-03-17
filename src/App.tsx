@@ -84,14 +84,14 @@ function App() {
         }
       </S.PlayBtn>
       <S.CounterBox>
-        <TextBox>
-          <CountNumber>{round}/{ROUND_TOTAL}</CountNumber>
-          <CountTitle>Round</CountTitle>
-        </TextBox>
-        <TextBox>
-          <CountNumber>{goal}/{GOAL_TOTAL}</CountNumber>
-          <CountTitle>GOAL</CountTitle>
-        </TextBox>
+        <S.TextBox>
+          <S.CountNumber>{round}/{A.ROUND_TOTAL}</S.CountNumber>
+          <S.CountTitle>Round</S.CountTitle>
+        </S.TextBox>
+        <S.TextBox>
+          <S.CountNumber>{goal}/{A.GOAL_TOTAL}</S.CountNumber>
+          <S.CountTitle>GOAL</S.CountTitle>
+        </S.TextBox>
       </S.CounterBox>
     </S.AppBox>
   )
