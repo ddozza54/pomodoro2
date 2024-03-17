@@ -62,7 +62,9 @@ function App() {
           transition={{ duration: 0.5 }}>
           <S.TimeInput onChange={(event) => {
             Number(event.target.value) >= 0 ? setMinutes(event.target.value.padStart(2, "0")) : setMinutes("00")
-          }} type='number' value={isTimerWorking ? getMinutes(pomoTime) : minutes} disabled={IsDisableToSetTime} />
+          }} type='number' value={isTimerWorking ? getMinutes(pomoTime) : minutes} disabled={IsDisableToSetTime}
+            maxLength={2}
+          />
         </S.TimeBox>
         <span>:</span>
         <S.TimeBox
@@ -72,9 +74,13 @@ function App() {
           transition={{ duration: 0.5 }}
         >
           <S.TimeInput onChange={(event) => {
-            Number(event.target.value) >= 0 ? setSeconds(event.target.value.padStart(2, "0")) : setSeconds("00")
+            //0보다 작아졌을 때 => 60 + 로 설정하기
+            const num = Number(event.target.value);
+            Number(event.target.value) >= 0 ? setSeconds(event.target.value.padStart(2, "0")) : setSeconds(String(60 + num).padStart(2, "0"))
           }}
-            type='number' value={isTimerWorking ? getSeconds(pomoTime) : seconds} disabled={IsDisableToSetTime} />
+            type='number' value={isTimerWorking ? getSeconds(pomoTime) : seconds} disabled={IsDisableToSetTime}
+            maxLength={2}
+          />
         </S.TimeBox>
       </S.Timer>
       <S.PlayBtn onClick={onPlayBtnClick} whileHover={{ scale: 1.2 }}>
