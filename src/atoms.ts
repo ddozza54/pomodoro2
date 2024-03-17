@@ -7,7 +7,7 @@ export const pomoTimeAtom = atom({
   default: POMO_TOTAL,
 });
 
-export const ROUND_TOTAL = 2;
+export const ROUND_TOTAL = 4;
 export const roundAtom = atom({
   key: 'round',
   default: 0,

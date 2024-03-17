@@ -11,11 +11,10 @@ export const AppBox = styled.main`
   justify-content: center;
 `;
 export const TimeInput = styled.input`
-  border: none;
-  background-color: transparent;
   width: 100%;
+  padding: 0.5rem;
   margin-left: 6px;
-  font-size: 6rem;
+  font-size: 5rem;
 `;
 export const Timer = styled.form`
   display: flex;
